@@ -43,6 +43,21 @@ buildscript {
         }
     }
 
+    /**
+     * Overrides for Teamcity 'K2 User Projects' + 'Aggregate build / Kotlinx libraries compilation' configuration:
+     * kotlin_repo_url - local repository with snapshot Kotlin compiler
+     * kotlin_version - kotlin version to use
+     * kotlin_language_version - LV to use
+     */
+    ext.snapshotRepoUrl = rootProject.properties["kotlin_repo_url"]
+    ext.kotlin_lv_override = rootProject.properties["kotlin_language_version"]
+    if (snapshotRepoUrl != null && snapshotRepoUrl != "") {
+        ext.kotlin_version = property("kotlin_version")
+        repositories {
+            maven { url snapshotRepoUrl }
+        }
+    }
+
     repositories {
         maven { url 'https://maven.pkg.jetbrains.space/kotlin/p/dokka/dev' }
         // kotlin-dev with space redirector
@@ -122,6 +137,13 @@ allprojects {
         repositories {
             mavenLocal()
             maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        }
+    }
+
+    if (snapshotRepoUrl != null && snapshotRepoUrl != "") {
+        // Snapshot-specific for K2 CI configurations
+        repositories {
+            maven { url snapshotRepoUrl }
         }
     }
 
