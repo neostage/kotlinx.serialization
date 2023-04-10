@@ -5,6 +5,7 @@
 package kotlinx.serialization.json
 
 import kotlinx.serialization.json.internal.*
+import kotlin.native.concurrent.*
 import kotlin.native.ref.*
 import kotlin.random.*
 
@@ -19,7 +20,7 @@ import kotlin.random.*
  *
  * To avoid memory leaks (when Json instance is no longer in use), WeakReference is used with periodical self-cleaning.
  */
-@kotlin.native.concurrent.ThreadLocal
+@ThreadLocal
 private val jsonToCache: MutableMap<WeakJson, DescriptorSchemaCache> = mutableMapOf()
 
 /**
