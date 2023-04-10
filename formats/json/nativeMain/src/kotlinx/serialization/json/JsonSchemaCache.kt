@@ -19,7 +19,7 @@ import kotlin.random.*
  *
  * To avoid memory leaks (when Json instance is no longer in use), WeakReference is used with periodical self-cleaning.
  */
-@ThreadLocal
+@kotlin.native.concurrent.ThreadLocal
 private val jsonToCache: MutableMap<WeakJson, DescriptorSchemaCache> = mutableMapOf()
 
 /**
